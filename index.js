@@ -5,44 +5,42 @@ let code4 = "const b = 22;const c = 5;const result1 = a % 10;const result2 = b %
 let code5 = "const b = 22;const c = 5;const result1 = a % 10;const result2 = b % 10;const result3 = c % 10;if(result1 == result2 && result1 == result3) {    console.log(`${a}, ${b} and ${c} have the same last digit. if`);}else {    console.log(`${a}, ${b} and ${c} have different last digit.`);}"
 
 const keyWords = [
-  'if', 
+  'if',
   'else',
-  '||', 
-  'while', 
+  '||',
+  'while',
   'for',
-  'forEach',
+  '.forEach',
   'case',
   'continue',
+  'break',
   '.map'
-  ]
+]
 
 function cc(code) {
   code = code.split(' ').join('')
-  //.replace(/(\r\n|\n|\r)/gm, "")
-  //.replace(/s/g, "")
   let CC = 0
-  
+
   keyWords.forEach(keyWord => {
     let word = ''
     let wordLength = 1
-    let calls = false
-    
+    let isString = false
+
     for (let i = 0; i < code.length; i++) {
       const actualChar = code[i]
+      const isActualCharACall = "\"\'\`".includes(actualChar)
       word += actualChar
       wordLength++
-      
-      if((actualChar === "'" || actualChar === '"' || actualChar == '`') && wordLength == 2) {
-        calls = calls ? false : true
+
+      if (isActualCharACall && wordLength == 2) {
+        isString = isString ? false : true
       }
-      if(word == keyWord && !calls) {
-        console.log('---> ', word)
+      if (word == keyWord && !isString) {
         CC++
       }
-      
-      if(wordLength == keyWord.length) {
+      if (wordLength == keyWord.length) {
         word = ''
-        i = i - (wordLength-1)
+        i = i - (wordLength - 1)
         wordLength = 0
       }
     }
